@@ -3,9 +3,14 @@ const app = express();
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const db = require("./models");
+const gameRouter = require("./routes/games.routes");
+const path = require("path");
 
 app.use(cors());
 app.use(bodyparser.json());
+app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/games", gameRouter);
 
 db.sequelize
   .sync()
