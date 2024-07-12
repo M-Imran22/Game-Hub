@@ -11,7 +11,7 @@ const GameCard = ({ game }: GameCardProps) => {
   console.log(game.platform);
 
   return (
-    <Card overflow={"hidden"}>
+    <Card width="300px" borderRadius="10px" overflow={"hidden"}>
       <Image
         src={ImageUrl}
         alt={game.gameName}
