@@ -2,7 +2,7 @@ const db = require("../models");
 
 exports.createNewGame = async (req, res) => {
   try {
-    const { gameName, platform } = req.body;
+    const { gameName, platform, genre } = req.body;
     const gameImage = req.file ? req.file.filename : null;
 
     const newGame = await db.Game.create({ gameName, gameImage });
@@ -11,6 +11,18 @@ exports.createNewGame = async (req, res) => {
 
     for (let slug of platformsArray) {
       const platformInstance = await db.Platform.create({
+        slug,
+        gameID: newGame.id,
+      });
+    }
+    const genreArray = JSON.parse(genre);
+
+    for (let genre of genreArray) {
+      const genreName = genre.name;
+      const slug = genre.slug;
+
+      const genreInstance = await db.Genre.create({
+        genreName,
         slug,
         gameID: newGame.id,
       });
@@ -29,6 +41,10 @@ exports.getAllGames = async (req, res) => {
         {
           model: db.Platform,
           as: "platform",
+        },
+        {
+          model: db.Genre,
+          as: "genre",
         },
       ],
     });

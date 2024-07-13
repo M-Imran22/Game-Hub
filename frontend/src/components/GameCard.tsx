@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image, Text } from "@chakra-ui/react";
+import { Card, CardBody, Heading, Image } from "@chakra-ui/react";
 import { Game } from "../hooks/useGame";
 import CardIcons from "./CardIcons";
 
@@ -8,7 +8,6 @@ interface GameCardProps {
 
 const GameCard = ({ game }: GameCardProps) => {
   const ImageUrl = `http://localhost:3001/uploads/${game.gameImage}`;
-  console.log(game.platform);
 
   return (
     <Card>

@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "gameID",
       as: "platform",
     });
+
+    Game.hasMany(models.Genre, {
+      foreignKey: "gameID",
+      as: "genre",
+    });
   };
 
   return Game;
