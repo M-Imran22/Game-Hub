@@ -9,21 +9,32 @@ export interface Game {
   platform: Platform[];
   genre: Genre[];
 }
-const useGame = (selectedGenre: Genre | null) => {
+const useGame = (
+  selectedGenre: Genre | null,
+  selectedPlatform: Platform | null
+) => {
   const {
     data: games,
     error,
     isLoading,
   } = useData<Game>(
     "/games",
-    { params: selectedGenre ? { genre: selectedGenre.slug } : {} },
-    [selectedGenre?.id]
+    {
+      params: { genre: selectedGenre?.slug, platform: selectedPlatform?.slug },
+    },
+    [selectedGenre?.id, selectedPlatform?.id]
   );
-  const filteredGames = selectedGenre
-    ? games.filter((game) =>
-        game.genre.some((genre) => genre.genreName === selectedGenre.genreName)
-      )
-    : games;
+  const filteredGames = games.filter((game) => {
+    const matchesGenre = selectedGenre
+      ? game.genre.some((genre) => genre.genreName === selectedGenre.genreName)
+      : true;
+    const matchesPlatform = selectedPlatform
+      ? game.platform.some(
+          (platform) => platform.slug === selectedPlatform.slug
+        )
+      : true;
+    return matchesGenre && matchesPlatform;
+  });
 
   return { games: filteredGames, error, isLoading };
 };
