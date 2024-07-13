@@ -1,3 +1,4 @@
+const { Op, where } = require("sequelize");
 const db = require("../models");
 
 exports.createNewGame = async (req, res) => {
@@ -35,8 +36,18 @@ exports.createNewGame = async (req, res) => {
 };
 
 exports.getAllGames = async (req, res) => {
+  const { search } = req.query;
   try {
+    const whereConditions = {};
+    if (search) {
+      whereConditions.gameName = {
+        [Op.like]: `%${search}%`,
+      };
+    }
+
     const games = await db.Game.findAll({
+      where: whereConditions,
+
       include: [
         {
           model: db.Platform,

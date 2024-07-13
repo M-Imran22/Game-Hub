@@ -9,6 +9,7 @@ export interface Game {
   gameImage: string;
   platform: Platform[];
   genre: Genre[];
+  search: string;
 }
 const useGame = (gameQuery: GameQuery) => {
   const {
@@ -21,6 +22,7 @@ const useGame = (gameQuery: GameQuery) => {
       params: {
         genre: gameQuery.genre?.slug,
         platform: gameQuery.platform?.slug,
+        search: gameQuery.onSearch,
       },
     },
     [gameQuery]
