@@ -1,6 +1,5 @@
 import { Box, Grid, GridItem, Show } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
-import NewGame from "./components/Admin/NewGame";
 import GamesList from "./components/GamesList";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
