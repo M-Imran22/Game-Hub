@@ -1,3 +1,4 @@
+import { GameQuery } from "../App";
 import useData from "./useData";
 import { Genre } from "./useGenre";
 import { Platform } from "./usePlatforms";
@@ -9,10 +10,7 @@ export interface Game {
   platform: Platform[];
   genre: Genre[];
 }
-const useGame = (
-  selectedGenre: Genre | null,
-  selectedPlatform: Platform | null
-) => {
+const useGame = (gameQuery: GameQuery) => {
   const {
     data: games,
     error,
@@ -20,17 +18,22 @@ const useGame = (
   } = useData<Game>(
     "/games",
     {
-      params: { genre: selectedGenre?.slug, platform: selectedPlatform?.slug },
+      params: {
+        genre: gameQuery.genre?.slug,
+        platform: gameQuery.platform?.slug,
+      },
     },
-    [selectedGenre?.id, selectedPlatform?.id]
+    [gameQuery]
   );
   const filteredGames = games.filter((game) => {
-    const matchesGenre = selectedGenre
-      ? game.genre.some((genre) => genre.genreName === selectedGenre.genreName)
+    const matchesGenre = gameQuery.genre
+      ? game.genre.some(
+          (genre) => genre.genreName === gameQuery.genre?.genreName
+        )
       : true;
-    const matchesPlatform = selectedPlatform
+    const matchesPlatform = gameQuery.platform
       ? game.platform.some(
-          (platform) => platform.slug === selectedPlatform.slug
+          (platform) => platform.slug === gameQuery.platform?.slug
         )
       : true;
     return matchesGenre && matchesPlatform;
