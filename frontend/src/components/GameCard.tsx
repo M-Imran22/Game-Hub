@@ -1,4 +1,4 @@
-import { Card, CardBody, Heading, Image } from "@chakra-ui/react";
+import { Card, CardBody, Heading, Image, Stack } from "@chakra-ui/react";
 import { Game } from "../hooks/useGame";
 import CardIcons from "./CardIcons";
 
@@ -18,10 +18,12 @@ const GameCard = ({ game }: GameCardProps) => {
         objectFit="fill"
       />
       <CardBody>
+        <Stack marginBottom={3}>
+          <CardIcons platform={game.platform.map((platfrom) => platfrom)} />
+        </Stack>
         <Heading fontWeight="bold" fontSize="xl">
           {game.gameName}
         </Heading>
-        <CardIcons platform={game.platform.map((platfrom) => platfrom)} />
       </CardBody>
     </Card>
   );
