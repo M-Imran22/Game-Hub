@@ -1,8 +1,11 @@
+import { number } from "zod";
 import useData from "./useData";
 
-interface Genre {
+export interface Genre {
   id: number;
   genreName: string;
+  slug: string;
+  gameID: number;
 }
 
 const useGenre = () => {
