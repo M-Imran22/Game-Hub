@@ -1,4 +1,3 @@
-import { number } from "zod";
 import useData from "./useData";
 
 export interface Genre {

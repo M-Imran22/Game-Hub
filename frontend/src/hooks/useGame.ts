@@ -1,10 +1,6 @@
 import useData from "./useData";
 import { Genre } from "./useGenre";
-
-export interface Platform {
-  id: number;
-  slug: string;
-}
+import { Platform } from "./usePlatforms";
 
 export interface Game {
   id: number;
