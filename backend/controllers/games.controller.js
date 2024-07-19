@@ -36,7 +36,8 @@ exports.createNewGame = async (req, res) => {
 };
 
 exports.getAllGames = async (req, res) => {
-  const { search } = req.query;
+  const { search, page = 1, limit = 10 } = req.query;
+  const offset = (page - 1) * limit;
   try {
     const whereConditions = {};
     if (search) {
@@ -45,7 +46,7 @@ exports.getAllGames = async (req, res) => {
       };
     }
 
-    const games = await db.Game.findAll({
+    const { count, rows: games } = await db.Game.findAndCountAll({
       where: whereConditions,
 
       include: [
@@ -58,8 +59,16 @@ exports.getAllGames = async (req, res) => {
           as: "genre",
         },
       ],
+
+      offset,
+      limit: parseInt(limit, 10),
     });
-    res.status(200).json(games);
+    res.status(200).json({
+      total: count,
+      pages: Math.ceil(count / limit),
+      currentPage: parseInt(page, 10),
+      games,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch games" });
   }

@@ -16,7 +16,10 @@ class ApiClient<T> {
 
   getAll = (config: AxiosRequestConfig) => {
     return axiosInstance
-      .get<T[]>(this.endpoint, config)
+      .get<{ games: T[]; total: number; pages: number; currentPage: number }>(
+        this.endpoint,
+        config
+      )
       .then((res) => res.data);
   };
 }

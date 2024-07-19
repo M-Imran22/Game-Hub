@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { GameQuery } from "../App";
 import { Genre } from "./useGenre";
 import { Platform } from "./usePlatforms";
@@ -14,37 +14,29 @@ export interface Game {
   genre: Genre[];
   search: string;
 }
-const useGame = (gameQuery: GameQuery) => {
-  const {
-    data: games,
-    error,
-    isLoading,
-  } = useQuery<Game[], Error>({
+
+const useGame = (gameQuery: GameQuery) =>
+  useInfiniteQuery<
+    { games: Game[]; total: number; pages: number; currentPage: number },
+    Error
+  >({
     queryKey: ["games", gameQuery],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           genre: gameQuery.genre?.slug,
           platform: gameQuery.platform?.slug,
           search: gameQuery.onSearch,
+          page: pageParam,
+          limit: 5,
         },
       }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.currentPage < lastPage.pages
+        ? lastPage.currentPage + 1
+        : undefined;
+    },
+    initialPageParam: 1,
   });
 
-  const filteredGames = games?.filter((game) => {
-    const matchesGenre = gameQuery.genre
-      ? game.genre.some(
-          (genre) => genre.genreName === gameQuery.genre?.genreName
-        )
-      : true;
-    const matchesPlatform = gameQuery.platform
-      ? game.platform.some(
-          (platform) => platform.slug === gameQuery.platform?.slug
-        )
-      : true;
-    return matchesGenre && matchesPlatform;
-  });
-
-  return { games: filteredGames, error, isLoading };
-};
 export default useGame;
