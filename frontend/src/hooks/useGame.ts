@@ -3,6 +3,7 @@ import { GameQuery } from "../App";
 import { Genre } from "./useGenre";
 import { Platform } from "./usePlatforms";
 import ApiClient from "../services/api-client";
+import ms from "ms";
 
 const apiClient = new ApiClient<Game>("games");
 
@@ -37,7 +38,8 @@ const useGame = (gameQuery: GameQuery) =>
         : undefined;
     },
     initialPageParam: 1,
-    staleTime: 24 * 60 * 60 * 1000, // 24h
+    // staleTime: 24 * 60 * 60 * 1000, // 24h
+    staleTime: ms("1d"),
   });
 
 export default useGame;
