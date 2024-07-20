@@ -11,7 +11,7 @@ export interface Genre {
 }
 
 const useGenre = () =>
-  useQuery({
+  useQuery<Genre[]>({
     queryKey: ["genres"],
     queryFn: apiClient.getAll,
 

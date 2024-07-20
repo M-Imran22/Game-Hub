@@ -22,7 +22,7 @@ const useGame = (gameQuery: GameQuery) =>
   >({
     queryKey: ["games", gameQuery],
     queryFn: ({ pageParam = 1 }) =>
-      apiClient.getAll({
+      apiClient.getAllPaginated({
         params: {
           genre: gameQuery.genre?.slug,
           platform: gameQuery.platform?.slug,
@@ -37,6 +37,7 @@ const useGame = (gameQuery: GameQuery) =>
         : undefined;
     },
     initialPageParam: 1,
+    staleTime: 24 * 60 * 60 * 1000, // 24h
   });
 
 export default useGame;
