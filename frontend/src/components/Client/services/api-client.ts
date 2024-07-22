@@ -28,6 +28,11 @@ class ApiClient<T> {
       )
       .then((res) => res.data);
   };
+
+  postNewGame = async (data: T) => {
+    const res = await axiosInstance.post(this.endpoint, data);
+    return res.data;
+  };
 }
 
 export default ApiClient;

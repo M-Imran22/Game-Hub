@@ -1,12 +1,13 @@
 import { Box, Grid, GridItem, Show } from "@chakra-ui/react";
-import Navbar from "./components/Navbar";
-import GamesList from "./components/GamesList";
-import GenreList from "./components/GenreList";
+import Navbar from "./components/Client/Navbar";
+import GamesList from "./components/Client/GamesList";
+import GenreList from "./components/Client/GenreList";
 import { useState } from "react";
-import { Genre } from "./hooks/useGenre";
-import PlatformSelecter from "./components/PlatformSelecter";
-import { Platform } from "./hooks/usePlatforms";
-import GameHeading from "./components/GameHeading";
+import { Genre } from "./components/Client/hooks/useGenre";
+import PlatformSelecter from "./components/Client/PlatformSelecter";
+import { Platform } from "./components/Client/hooks/usePlatforms";
+import GameHeading from "./components/Client/GameHeading";
+import NewGame from "./components/Admin/NewGame";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -28,21 +29,21 @@ function App() {
       }}
     >
       <GridItem area={"nav"}>
-        <Navbar
+        {/* <Navbar
           onSearch={(onSearch) => setGameQuery({ ...gameQuery, onSearch })}
-        />
+        /> */}
       </GridItem>
       <Show above="lg">
         <GridItem area={"asid"} paddingX={5}>
-          <GenreList
+          {/* <GenreList
             selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
-          />
+          /> */}
         </GridItem>
       </Show>
       <GridItem area={"main"}>
-        {/* <NewGame /> */}
-        <Box marginLeft={3}>
+        <NewGame />
+        {/* <Box marginLeft={3}>
           <GameHeading gameQuery={gameQuery} />
           <PlatformSelecter
             selectedPlatform={gameQuery.platform}
@@ -51,7 +52,7 @@ function App() {
             }
           />
         </Box>
-        <GamesList gameQuery={gameQuery} />
+        <GamesList gameQuery={gameQuery} /> */}
       </GridItem>
     </Grid>
   );

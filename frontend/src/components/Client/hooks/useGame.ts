@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { GameQuery } from "../App";
+import { GameQuery } from "../../../App";
 import { Genre } from "./useGenre";
 import { Platform } from "./usePlatforms";
 import ApiClient from "../services/api-client";

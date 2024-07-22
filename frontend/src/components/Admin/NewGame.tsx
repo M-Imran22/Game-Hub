@@ -13,16 +13,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent } from "react";
-import apiClient from "../../services/api-client";
-import genres from "../../data/genres";
-import platforms from "../../data/platforms";
-
-// const platforms = [
-//   { id: 1, name: "Playstation", slug: "playstation" },
-//   { id: 2, name: "PC", slug: "pc" },
-//   { id: 3, name: "Xbox", slug: "xbox" },
-//   { id: 4, name: "Nintendo", slug: "nintendo" },
-// ];
+import genres from "../data/genres";
+import platforms from "../data/platforms";
+import useNewGame from "./hooks/useNewGame";
 
 const schema = z.object({
   gameName: z.string().min(3, "Name is required"),
@@ -37,7 +30,7 @@ const schema = z.object({
   genre: z.array(z.string()).nonempty("Select at least one genre"),
 });
 
-type GameData = z.infer<typeof schema>;
+export type GameData = z.infer<typeof schema>;
 
 const NewGame = () => {
   const {
@@ -48,30 +41,10 @@ const NewGame = () => {
     setValue,
   } = useForm<GameData>({ resolver: zodResolver(schema) });
 
-  const submit = async (data: GameData) => {
-    const gameData = new FormData(); //FormData is a built-in object
-    gameData.append("gameName", data.gameName);
-    gameData.append("gameImage", data.gameImage[0]);
-    gameData.append("platform", JSON.stringify(data.platform));
+  const mutation = useNewGame(() => reset());
 
-    const selectedGenres = genres.filter((genre) =>
-      data.genre.includes(genre.slug)
-    );
-    gameData.append("genre", JSON.stringify(selectedGenres));
-
-    try {
-      const response = await apiClient.post("/games", gameData, {
-        headers: {
-          "Content-Type": "muultipart/form-data",
-        },
-      });
-
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-
-    reset();
+  const submit = (data: GameData) => {
+    mutation.mutate(data);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
