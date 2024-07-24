@@ -6,6 +6,7 @@ const db = require("./models");
 const gameRouter = require("./routes/games.routes");
 const genreRouter = require("./routes/genres.routes");
 const platformRouter = require("./routes/platforms.routes");
+const sysReqOptionsRouter = require("./routes/sys_req_options.routes");
 const path = require("path");
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/games", gameRouter);
 app.use("/api/genres", genreRouter);
 app.use("/api/platforms", platformRouter);
+app.use("/api/sys_req_options", sysReqOptionsRouter);
 
 db.sequelize
   .sync()
