@@ -25,15 +25,15 @@ import platforms from "../data/platforms";
 import useNewGame from "./hooks/useNewGame";
 import { GameData, schema } from "./NewGameValidationSchema";
 import { useQuery } from "@tanstack/react-query";
-import { fetchOptions } from "./services/api-client";
+// import { fetchOptions } from "./services/api-client";
 import { TypesKeys } from "./interface";
 import SystemRequirements from "./SystemRequirements";
 
 const NewGame = () => {
-  const { data: options } = useQuery({
-    queryKey: ["options"],
-    queryFn: () => fetchOptions(),
-  });
+  // const { data: options } = useQuery({
+  //   queryKey: ["options"],
+  //   queryFn: () => fetchOptions(),
+  // });
 
   const methods = useForm<GameData>({ resolver: zodResolver(schema) });
 
@@ -53,7 +53,7 @@ const NewGame = () => {
   const mutation = useNewGame(() => reset());
 
   const submit = (data: GameData) => {
-    console.log(data);
+    // console.log(data);
     mutation.mutate(data);
   };
 

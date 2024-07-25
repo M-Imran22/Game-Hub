@@ -14,7 +14,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post("/", upload.single("gameImage"), gameController.createNewGame);
+const fileFields = [
+  { name: "gameImage", maxCount: 1 },
+  { name: "screenShots", maxCount: 20 }, // Adjust maxCount as needed
+];
+
+router.post("/", upload.fields(fileFields), gameController.createNewGame);
 
 router.get("/", gameController.getAllGames);
 

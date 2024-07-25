@@ -1,10 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Genre = sequelize.define("Genre", {
-    genreName: {
-      type: DataTypes.STRING,
-    },
-
-    slug: {
+  const GameScreenShots = sequelize.define("GameScreenShots", {
+    screenShot: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -17,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  Genre.associate = (models) => {
-    Genre.belongsTo(models.Game, {
+  GameScreenShots.associate = (models) => {
+    GameScreenShots.belongsTo(models.Game, {
       foreignKey: "gameID",
       as: "game",
     });
   };
 
-  return Genre;
+  return GameScreenShots;
 };
