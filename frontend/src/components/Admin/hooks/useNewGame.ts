@@ -1,8 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { GameData } from "../NewGame";
 import genres from "../../data/genres";
 import { CACHE_KEY_GAMES } from "../Constants";
 import axios from "axios";
+import { GameData } from "../NewGameValidationSchema";
 
 const useNewGame = (onAdd: () => void) => {
   const queryClient = useQueryClient();
@@ -19,17 +19,17 @@ const useNewGame = (onAdd: () => void) => {
       );
       gameData.append("genre", JSON.stringify(selectedGenres));
 
-      const response = await axios.post(
-        "http://localhost:3001/api/games",
-        gameData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "http://localhost:3001/api/games",
+      //   gameData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
 
-      return response.data;
+      // return response.data;
     },
     onMutate: async (newGame: GameData) => {
       const previousGames =

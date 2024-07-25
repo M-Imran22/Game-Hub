@@ -18,3 +18,10 @@ export const fetchOptions = async (): Promise<Types> => {
 
   return types;
 };
+
+// export const fetchOptions = async () => {
+//   const response = await axios.get<Types[]>(
+//     "http://localhost:3001/api/sys_req_options"
+//   );
+//   return response.data;
+// };
