@@ -6,14 +6,12 @@ import {
   ListItem,
   Spinner,
 } from "@chakra-ui/react";
-import useGenre, { Genre } from "./hooks/useGenre";
+import useGenre from "../../hooks/useGenre";
+import useGameQueryStore from "../../store";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-  selectedGenre: Genre | null;
-}
-
-const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
+const GenreList = () => {
+  const setGenre = useGameQueryStore((s) => s.setGenre);
+  const selectedGenre = useGameQueryStore((s) => s.gameQuery.genre);
   const { data, isLoading, error } = useGenre();
 
   if (error) return null;
@@ -32,7 +30,7 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
                 whiteSpace="normal"
                 textAlign="left"
                 fontWeight={genre.id == selectedGenre?.id ? "bold" : "normal"}
-                onClick={() => onSelectGenre(genre)}
+                onClick={() => setGenre(genre)}
                 variant="link"
                 fontSize="large"
               >
