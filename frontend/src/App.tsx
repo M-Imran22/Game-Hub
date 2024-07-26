@@ -29,21 +29,21 @@ function App() {
       }}
     >
       <GridItem area={"nav"}>
-        {/* <Navbar
+        <Navbar
           onSearch={(onSearch) => setGameQuery({ ...gameQuery, onSearch })}
-        /> */}
+        />
       </GridItem>
       <Show above="lg">
         <GridItem area={"asid"} paddingX={5}>
-          {/* <GenreList
+          <GenreList
             selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
-          /> */}
+          />
         </GridItem>
       </Show>
       <GridItem area={"main"}>
-        <NewGame />
-        {/* <Box marginLeft={3}>
+        {/* <NewGame /> */}
+        <Box marginLeft={3}>
           <GameHeading gameQuery={gameQuery} />
           <PlatformSelecter
             selectedPlatform={gameQuery.platform}
@@ -52,7 +52,7 @@ function App() {
             }
           />
         </Box>
-        <GamesList gameQuery={gameQuery} /> */}
+        <GamesList gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );

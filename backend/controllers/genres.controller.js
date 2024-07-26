@@ -3,14 +3,7 @@ const db = require("../models");
 exports.getAllGenres = async (req, res) => {
   try {
     const genres = await db.Genre.findAll({
-      attributes: [
-        "id",
-        "genreName",
-        "slug",
-        "gameID",
-        "createdAt",
-        "updatedAt",
-      ],
+      attributes: ["id", "slug", "gameID"],
       group: ["genreName"],
     });
     res.status(200).json(genres);

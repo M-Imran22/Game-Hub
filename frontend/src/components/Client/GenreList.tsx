@@ -6,8 +6,7 @@ import {
   ListItem,
   Spinner,
 } from "@chakra-ui/react";
-import useGenre from "../hooks/useGenre";
-import { Genre } from "../hooks/useGenre";
+import useGenre, { Genre } from "./hooks/useGenre";
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;

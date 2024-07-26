@@ -17,9 +17,7 @@ const GamesList = ({ gameQuery }: Props) => {
   const filteredGames = data?.pages.flatMap((page) =>
     page.games.filter((game) => {
       const matchesGenre = gameQuery.genre
-        ? game.genre.some(
-            (genre) => genre.genreName === gameQuery.genre?.genreName
-          )
+        ? game.genre.some((genre) => genre.slug === gameQuery.genre?.slug)
         : true;
       const matchesPlatform = gameQuery.platform
         ? game.platform.some(
