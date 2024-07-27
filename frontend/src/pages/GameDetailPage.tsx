@@ -1,7 +1,8 @@
 import React from "react";
 import useGame from "../hooks/useGame";
-import { Heading, Spinner, Text } from "@chakra-ui/react";
+import { Heading, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import ExpendableText from "../components/Client/ExpendableText";
 
 const GameDetailPage: React.FC = () => {
   const { gameName } = useParams();
@@ -13,7 +14,7 @@ const GameDetailPage: React.FC = () => {
   return (
     <>
       <Heading>{game.gameName}</Heading>
-      <Text>{game.gameDescription}</Text>
+      <ExpendableText>{game.gameDescription}</ExpendableText>
     </>
   );
 };
