@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import genres from "../../../data/genres";
+import genres from "../data/genres";
 import axios from "axios";
-import { GameData } from "../NewGameValidationSchema";
+import { GameData } from "../components/Admin/newGame/NewGameValidationSchema";
 
 const useNewGame = (onAdd: () => void) => {
   return useMutation({

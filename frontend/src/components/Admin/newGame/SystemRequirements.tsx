@@ -7,7 +7,7 @@ import {
   VStack,
   Text,
 } from "@chakra-ui/react";
-import { Types, TypesKeys } from "./interface";
+import { Types, TypesKeys } from "./newGameTypes";
 import { useFormContext } from "react-hook-form";
 
 interface Props {

@@ -7,7 +7,6 @@ import {
   FormLabel,
   HStack,
   Input,
-  Select,
   Stack,
   VStack,
   Text,
@@ -19,15 +18,12 @@ import {
 import { BsPlus } from "react-icons/bs";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent, useState } from "react";
-import genres from "../../data/genres";
-import platforms from "../../data/platforms";
-import useNewGame from "./hooks/useNewGame";
+import { ChangeEvent } from "react";
+import genres from "../../../data/genres";
+import platforms from "../../../data/platforms";
+import useNewGame from "../../../hooks/useNewGame";
 import { GameData, schema } from "./NewGameValidationSchema";
-import { useQuery } from "@tanstack/react-query";
 // import { fetchOptions } from "./services/api-client";
-import { TypesKeys } from "./interface";
-import SystemRequirements from "./SystemRequirements";
 
 const NewGame = () => {
   // const { data: options } = useQuery({
