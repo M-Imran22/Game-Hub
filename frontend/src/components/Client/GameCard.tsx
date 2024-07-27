@@ -1,6 +1,7 @@
 import { Card, CardBody, Heading, Image, Stack } from "@chakra-ui/react";
 import CardIcons from "./CardIcons";
-import { Game } from "../../hooks/useGame";
+import { Game } from "../../hooks/useGames";
+import { Link } from "react-router-dom";
 
 interface GameCardProps {
   game: Game;
@@ -22,7 +23,7 @@ const GameCard = ({ game }: GameCardProps) => {
           <CardIcons platform={game.platform.map((platfrom) => platfrom)} />
         </Stack>
         <Heading fontWeight="bold" fontSize="xl">
-          {game.gameName}
+          <Link to={"/games/" + game.gameName}>{game.gameName}</Link>
         </Heading>
       </CardBody>
     </Card>

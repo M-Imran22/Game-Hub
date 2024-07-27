@@ -11,12 +11,13 @@ export interface Game {
   id: number;
   gameName: string;
   gameImage: string;
+  gameDescription: string;
   platform: Platform[];
   genre: Genre[];
   search: string;
 }
 
-const useGame = () => {
+const useGames = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
   return useInfiniteQuery<
     { games: Game[]; total: number; pages: number; currentPage: number },
@@ -43,4 +44,4 @@ const useGame = () => {
     staleTime: ms("1d"),
   });
 };
-export default useGame;
+export default useGames;

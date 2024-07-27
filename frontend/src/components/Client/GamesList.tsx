@@ -1,14 +1,15 @@
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
-import useGame from "../../hooks/useGame";
+import useGames from "../../hooks/useGames";
 import GameCard from "./GameCard";
 import GameCardSkeleton from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useGameQueryStore from "../../store";
+import useGame from "../../hooks/useGame";
 
 const GamesList = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
-  const { data, error, isLoading, fetchNextPage, hasNextPage } = useGame();
+  const { data, error, isLoading, fetchNextPage, hasNextPage } = useGames();
 
   const filteredGames = data?.pages.flatMap((page) =>
     page.games.filter((game) => {

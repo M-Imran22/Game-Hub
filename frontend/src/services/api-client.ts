@@ -20,6 +20,17 @@ class ApiClient<T> {
       .then((res) => res.data);
   };
 
+  get = (id: number | string) => {
+    return axiosInstance
+      .get<T>(`${this.endpoint}/${id}`)
+      .then((res) => res.data) // Ensure the data is returned here
+      .catch((error) => {
+        // Handle or log errors
+        console.error("API request failed:", error);
+        throw error; // Rethrow the error after logging
+      });
+  };
+
   getAllPaginated = (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<{ games: T[]; total: number; pages: number; currentPage: number }>(
