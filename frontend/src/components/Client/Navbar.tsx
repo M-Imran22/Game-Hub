@@ -1,4 +1,4 @@
-import { HStack, Image } from "@chakra-ui/react";
+import { HStack, Image, Link as ChakraLink } from "@chakra-ui/react";
 import logo from "../../assets/logo.jpg";
 import SwitchColorMode from "./SwitchColorMode";
 import SearchInput from "./SearchInput";
@@ -16,6 +16,9 @@ const Navbar = () => {
         />
       </Link>
       <SearchInput />
+      <ChakraLink as={Link} to="/admin" marginRight="10px" fontWeight="bold">
+        Admin
+      </ChakraLink>
       <SwitchColorMode />
     </HStack>
   );

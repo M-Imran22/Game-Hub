@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     GameScreenShots.belongsTo(models.Game, {
       foreignKey: "gameID",
       as: "game",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
   };
 

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import {
   Table,
   Thead,
@@ -14,52 +13,26 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-
-interface GameProduct {
-  id: number;
-  gameName: string;
-  gameImage: string;
-  publisherName: string;
-  price: number;
-  releaseDate: string;
-}
-
-interface ResponseGames {
-  games: GameProduct[];
-}
+import useDeleteGame from "../../hooks/useDeleteGame";
+import useAllGames from "./useAllGames";
 
 const AllGameProduct = () => {
-  const [games, setGames] = useState<GameProduct[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ResponseGames>(
-          "http://localhost:3001/api/games",
-          {
-            params: {
-              page: page,
-              page_size: 10,
-            },
-          }
-        );
-        setGames(response.data.games);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to fetch data");
-        setLoading(false);
-      }
-    };
+  const { data: games, error, isLoading } = useAllGames(page);
 
-    fetchData();
-  }, [page]);
+  const { mutate: deleteGame } = useDeleteGame();
 
   const handleDelete = (id: number) => {
-    // handle the delete action
-    console.log(`Deleting game with id: ${id}`);
+    deleteGame(id, {
+      onSuccess: () => {
+        window.alert(`Game No ${id} deleted`);
+        console.log(`Game with id: ${id} deleted successfully`);
+      },
+      onError: (error) => {
+        console.error(`Failed to delete game with id: ${id}`, error);
+      },
+    });
   };
 
   const handleNextPage = () => {
@@ -68,8 +41,8 @@ const AllGameProduct = () => {
   const handlePreviousPage = () => {
     setPage((prevPage) => prevPage - 1);
   };
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <Box>
@@ -86,7 +59,7 @@ const AllGameProduct = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {games.map((game) => (
+          {games?.map((game) => (
             <Tr key={game.id}>
               <Td>
                 <Link href={`http://localhost:3001/game/${game.id}`} isExternal>

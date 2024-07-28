@@ -21,6 +21,8 @@ module.exports = (sequelize, DataTypes) => {
     Genre.belongsTo(models.Game, {
       foreignKey: "gameID",
       as: "game",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
   };
 

@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
     Platform.belongsTo(models.Game, {
       foreignKey: "gameID",
       as: "game",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
   };
 

@@ -29,6 +29,17 @@ class ApiClient<T> {
         throw error;
       });
   };
+  delete = async (id: number | string): Promise<{ message: string }> => {
+    try {
+      const response = await axiosInstance.delete<{ message: string }>(
+        `${this.endpoint}/${id}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("API delete request failed:", error);
+      throw error;
+    }
+  };
 
   getAllPaginated = (config: AxiosRequestConfig) => {
     return axiosInstance

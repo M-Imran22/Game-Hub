@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/Client/Navbar";
 import { Box } from "@chakra-ui/react";
 
-const layout = () => {
+const ClientLayout = () => {
   return (
     <>
       <Navbar />
@@ -13,4 +13,4 @@ const layout = () => {
   );
 };
 
-export default layout;
+export default ClientLayout;

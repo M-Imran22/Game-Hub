@@ -38,15 +38,21 @@ module.exports = (sequelize, DataTypes) => {
     Game.hasMany(models.Platform, {
       foreignKey: "gameID",
       as: "platform",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
 
     Game.hasMany(models.Genre, {
       foreignKey: "gameID",
       as: "genre",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
     Game.hasMany(models.GameScreenShots, {
       foreignKey: "gameID",
       as: "screenShots",
+      onDelete: "CASCADE",
+      Hooks: true,
     });
   };
 
