@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import useDeleteGame from "../../hooks/useDeleteGame";
-import useAllGames from "./useAllGames";
+import useAllGames from "../../hooks/useAllGames";
 
 const AllGameProduct = () => {
   const [page, setPage] = useState<number>(1);
@@ -36,10 +36,10 @@ const AllGameProduct = () => {
   };
 
   const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
+    if (games?.length === 10) setPage((prevPage) => prevPage + 1);
   };
   const handlePreviousPage = () => {
-    setPage((prevPage) => prevPage - 1);
+    if (page > 1) setPage((prevPage) => prevPage - 1);
   };
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
@@ -94,7 +94,12 @@ const AllGameProduct = () => {
         </Tbody>
       </Table>
       <Flex justifyContent="center" my={8}>
-        <Button onClick={handlePreviousPage} colorScheme="teal">
+        <Button
+          disabled={page === 1}
+          mx={4}
+          onClick={handlePreviousPage}
+          colorScheme="teal"
+        >
           Previous Page
         </Button>
         <Button mx={4} onClick={handleNextPage} colorScheme="teal">

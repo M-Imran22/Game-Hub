@@ -20,7 +20,7 @@ const useGames = () => {
           platform: gameQuery.platform?.slug,
           search: gameQuery.searchText,
           page: pageParam,
-          limit: 5,
+          limit: 6,
         },
       }),
     getNextPageParam: (lastPage) => {
