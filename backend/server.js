@@ -7,6 +7,7 @@ const gamesRouter = require("./routes/games.routes");
 const genreRouter = require("./routes/genres.routes");
 const platformRouter = require("./routes/platforms.routes");
 const gameRouter = require("./routes/game.routes");
+const gameScreenShotsRouter = require("./routes/gameScreenShots.routes");
 // const sysReqOptionsRouter = require("./routes/sys_req_options.routes");
 const path = require("path");
 
@@ -18,6 +19,7 @@ app.use("/api/games", gamesRouter);
 app.use("/api/genres", genreRouter);
 app.use("/api/platforms", platformRouter);
 app.use("/api/game", gameRouter);
+app.use("/api/gameScreenShots", gameScreenShotsRouter);
 // app.use("/api/sys_req_options", sysReqOptionsRouter);
 
 db.sequelize

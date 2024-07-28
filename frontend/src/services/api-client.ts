@@ -23,11 +23,10 @@ class ApiClient<T> {
   get = (id: number | string) => {
     return axiosInstance
       .get<T>(`${this.endpoint}/${id}`)
-      .then((res) => res.data) // Ensure the data is returned here
+      .then((res) => res.data)
       .catch((error) => {
-        // Handle or log errors
         console.error("API request failed:", error);
-        throw error; // Rethrow the error after logging
+        throw error;
       });
   };
 
