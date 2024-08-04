@@ -4,8 +4,7 @@ import GameCard from "./GameCard";
 import GameCardSkeleton from "./GameCardSkeleton";
 import GameCardContainer from "./GameCardContainer";
 import InfiniteScroll from "react-infinite-scroll-component";
-import useGameQueryStore from "../../store";
-import useGame from "../../hooks/useGame";
+import useGameQueryStore from "../../store/gameQueryStore";
 
 const GamesList = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);

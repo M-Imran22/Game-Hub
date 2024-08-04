@@ -54,6 +54,10 @@ class ApiClient<T> {
     const res = await axiosInstance.post(this.endpoint, data);
     return res.data;
   };
+
+  postSignup = async (data: T) => {
+    await axiosInstance.post(this.endpoint, data).then((res) => res.data);
+  };
 }
 
 export default ApiClient;

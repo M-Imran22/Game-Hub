@@ -1,4 +1,4 @@
-import AllGameProduct from "../components/Admin/AllGmeProduct";
+import AllGameProduct from "../components/Admin/allGames/AllGmeProduct";
 
 const AdminAllProducesPage = () => {
   return <AllGameProduct />;

@@ -1,5 +1,5 @@
 import { Heading } from "@chakra-ui/react";
-import useGameQueryStore from "../../store";
+import useGameQueryStore from "../../store/gameQueryStore";
 
 const GameHeading = () => {
   const gameQuery = useGameQueryStore((s) => s.gameQuery);

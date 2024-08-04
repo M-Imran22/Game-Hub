@@ -6,6 +6,7 @@ import AdminAllProducesPage from "./pages/AdminAllProducesPage";
 import AdminLayout from "./pages/Adminlayout";
 import ClientLayout from "./pages/Clientlayout";
 import AdminNewGamePage from "./pages/AdminNewGamePage";
+import SignupPage from "./pages/SignupPage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <AdminAllProducesPage /> },
       { path: "newgame", element: <AdminNewGamePage /> },
+      { path: "signup", element: <SignupPage /> },
     ],
   },
 ]);

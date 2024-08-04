@@ -2,7 +2,7 @@ import { HStack, Icon } from "@chakra-ui/react";
 import { FaWindows, FaPlaystation, FaXbox } from "react-icons/fa";
 import { SiNintendo } from "react-icons/si";
 import { IconType } from "react-icons";
-import { Platform } from "../../entities/Platform";
+import Platform from "../../entities/Platform";
 
 interface Props {
   platform: Platform[];

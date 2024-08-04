@@ -7,7 +7,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import useGenre from "../../hooks/useGenre";
-import useGameQueryStore from "../../store";
+import useGameQueryStore from "../../store/gameQueryStore";
 
 const GenreList = () => {
   const setGenre = useGameQueryStore((s) => s.setGenre);

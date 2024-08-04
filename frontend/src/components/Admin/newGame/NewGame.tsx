@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChangeEvent } from "react";
 import genres from "../../../data/genres";
 import platforms from "../../../data/platforms";
-import useNewGame from "../../../hooks/useNewGame";
+import useNewGame from "./useNewGame";
 import { GameData, schema } from "./NewGameValidationSchema";
 import { useNavigate } from "react-router-dom";
 // import { fetchOptions } from "./services/api-client";
