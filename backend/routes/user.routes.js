@@ -1,10 +1,12 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
+const db = require("../models");
+const { where } = require("sequelize");
 const router = express.Router();
-const UserController = require("../controllers/user.controller");
+const userController = require("../controllers/user.controller");
 
-router.post("/signup", UserController.addUser);
-router.post("/login", UserController.getUser);
-router.get("/admin", UserController.getAdmin);
-router.get("/user", UserController.getUser);
+router.post("/signup", userController.signup);
+
+router.post("/login", userController.login);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const gameController = require("../controllers/games.controller");
 const multer = require("multer");
 const path = require("path");
+const { verifyAccessToken, verifyRefreshToken } = require("../utils/jwt");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -21,6 +22,6 @@ const fileFields = [
 
 router.post("/", upload.fields(fileFields), gameController.createNewGame);
 
-router.get("/", gameController.getAllGames);
+router.get("/", verifyAccessToken, gameController.getAllGames);
 
 module.exports = router;
