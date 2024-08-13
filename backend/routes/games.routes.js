@@ -3,7 +3,9 @@ const router = express.Router();
 const gameController = require("../controllers/games.controller");
 const multer = require("multer");
 const path = require("path");
-const { verifyAccessToken, verifyRefreshToken } = require("../utils/jwt");
+const { verifyAccessToken } = require("../utils/jwt");
+const ROLES_LIST = require("../config/roles_list");
+const verifyRoles = require("../utils/verifyRoles");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -20,8 +22,13 @@ const fileFields = [
   { name: "screenShots", maxCount: 20 }, // Adjust maxCount as needed
 ];
 
-router.post("/", upload.fields(fileFields), gameController.createNewGame);
+router.post(
+  "/",
+  verifyRoles(ROLES_LIST.Admin),
+  upload.fields(fileFields),
+  gameController.createNewGame
+);
 
-router.get("/", verifyAccessToken, gameController.getAllGames);
+router.get("/", gameController.getAllGames);
 
 module.exports = router;

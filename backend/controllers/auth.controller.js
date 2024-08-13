@@ -3,27 +3,7 @@ const db = require("../models");
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
 
-exports.signup = async (req, res) => {
-  const { username, email, password, role } = req.body;
-
-  try {
-    const hashPwd = await bcrypt.hash(password, 10);
-    const user = await db.User.create({
-      username,
-      email,
-      password: hashPwd,
-      role,
-    });
-
-    res.status(201).json({ message: "User added" });
-  } catch (error) {
-    console.log(error);
-
-    res.status(400).json({ error: error.message });
-  }
-};
-
-exports.login = async (req, res) => {
+const handleLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -39,12 +19,26 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const accessToken = generateAccessToken({ id: user.id });
-    const refreshToken = generateRefreshToken({ id: user.id });
+    const roles = Object.values(user.roles);
 
-    res.json({ accessToken, refreshToken });
+    const accessToken = generateAccessToken({
+      username: user.username,
+      roles: roles,
+    });
+    const refreshToken = generateRefreshToken({ username: user.username });
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      maxage: 24 * 60 * 60 * 1000,
+    });
+    res.json({ accessToken });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
   }
 };
+
+module.exports = { handleLogin };
