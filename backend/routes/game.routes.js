@@ -7,6 +7,7 @@ const ROLES_LIST = require("../config/roles_list");
 const verifyRoles = require("../utils/verifyRoles");
 
 router.get("/:name", verifyAccessToken, gameController.getGame);
+router.get("/:id", gameController.getGameScreenShots);
 router.delete(
   "/:id",
   verifyRoles(ROLES_LIST.Admin),

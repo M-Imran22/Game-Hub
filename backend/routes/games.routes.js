@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const gameController = require("../controllers/games.controller");
+const gamesController = require("../controllers/games.controller");
 const multer = require("multer");
 const path = require("path");
 const { verifyAccessToken } = require("../utils/jwt");
@@ -26,9 +26,11 @@ router.post(
   "/",
   verifyRoles(ROLES_LIST.Admin),
   upload.fields(fileFields),
-  gameController.createNewGame
+  gamesController.createNewGame
 );
 
-router.get("/", gameController.getAllGames);
+router.get("/", gamesController.getAllGames);
+router.get("/genres", gamesController.getAllGenres);
+router.get("/platforms", gamesController.getAllPlatforms);
 
 module.exports = router;

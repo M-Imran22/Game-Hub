@@ -4,7 +4,7 @@ import ms from "ms";
 import ApiClient from "../services/api-client";
 import Platform from "../entities/Platform";
 
-const apiClient = new ApiClient<Platform>("platforms");
+const apiClient = new ApiClient<Platform>("games/platforms");
 
 const usePlatforms = () =>
   useQuery({

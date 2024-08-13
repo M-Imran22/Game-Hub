@@ -4,7 +4,7 @@ import ms from "ms";
 import ApiClient from "../services/api-client";
 import Genre from "../entities/Genre";
 
-const apiClient = new ApiClient<Genre>("genres");
+const apiClient = new ApiClient<Genre>("games/genres");
 
 const useGenre = () =>
   useQuery<Genre[]>({

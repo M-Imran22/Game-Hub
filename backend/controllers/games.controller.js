@@ -103,3 +103,26 @@ exports.getAllGames = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch games" });
   }
 };
+
+exports.getAllGenres = async (req, res) => {
+  try {
+    const genres = await db.Genre.findAll({
+      attributes: ["id", "slug", "gameID"],
+      group: ["genreName"],
+    });
+    res.status(200).json(genres);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+exports.getAllPlatforms = async (req, res) => {
+  try {
+    const platforms = await db.Platform.findAll({
+      group: ["slug"],
+    });
+    res.status(200).json(platforms);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

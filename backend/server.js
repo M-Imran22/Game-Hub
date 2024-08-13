@@ -7,10 +7,7 @@ const db = require("./models");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const gamesRouter = require("./routes/games.routes");
-const genreRouter = require("./routes/genres.routes");
-const platformRouter = require("./routes/platforms.routes");
 const gameRouter = require("./routes/game.routes");
-const gameScreenShotsRouter = require("./routes/gameScreenShots.routes");
 // const sysReqOptionsRouter = require("./routes/sys_req_options.routes");
 const registerRoutes = require("./routes/api/register.routes");
 const authRoutes = require("./routes/api/auth.routes");
@@ -45,10 +42,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/refreshToken", refreshTokenRoutes);
 app.use("/api/logout", logoutRoutes);
 
-app.use("/api/genres", genreRouter);
-app.use("/api/platforms", platformRouter);
 app.use("/api/game", gameRouter);
-app.use("/api/gameScreenShots", gameScreenShotsRouter);
 // app.use("/api/sys_req_options", sysReqOptionsRouter);
 
 db.sequelize
