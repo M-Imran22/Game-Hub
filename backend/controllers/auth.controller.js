@@ -19,7 +19,8 @@ const handleLogin = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const roles = Object.values(user.roles);
+    // const roles = Object.values(user.roles).filter(Boolean);
+    const roles = user.roles ? user.roles.split(",").filter(Boolean) : [];
 
     const accessToken = generateAccessToken({
       username: user.username,
@@ -32,12 +33,12 @@ const handleLogin = async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      maxage: 24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken });
+    res.json({ roles, accessToken });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: error.message });
+    res.status(401).json({ error: error.message });
   }
 };
 

@@ -41,6 +41,11 @@ fs.readdirSync(__dirname)
 // Import models
 db.Game = require("./game.model")(sequelize, Sequelize.DataTypes);
 db.Platform = require("./platform.model")(sequelize, Sequelize.DataTypes);
+db.Genre = require("./genre.model")(sequelize, Sequelize.DataTypes);
+db.GameScreenShots = require("./gameScreenShots.model")(
+  sequelize,
+  Sequelize.DataTypes
+);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

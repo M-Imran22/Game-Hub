@@ -1,7 +1,8 @@
 import { z } from "zod";
 // import ApiClient from "../../services/api-client";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import ApiClient from "../../services/api-client";
+import { useNavigate } from "react-router-dom";
 
 export const schema = z.object({
   username: z
@@ -13,27 +14,27 @@ export const schema = z.object({
     .string()
     .min(8, { message: "Password must be greater then 8 characters" })
     .max(20),
+  roles: z.string(),
 });
 
 export type UserData = z.infer<typeof schema>;
-// const apiClient = new ApiClient<UserData>("/admin/signup");
+const apiClient = new ApiClient<UserData>("/register");
 
 const useSignup = () => {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: async (data: UserData) => {
       const formData = new FormData();
       formData.append("username", data.username);
       formData.append("email", data.email);
       formData.append("password", data.password);
+      formData.append("roles", "user");
 
-      console.log(data);
-
-      await axios
-        .post("http://localhost:3001/api/admin/signup", data)
-        .then((res) => res.data);
+      await apiClient.postSignup(data);
     },
     onSuccess: () => {
-      console.log("admin data is saved");
+      navigate("/login");
     },
     onError: (error) => {
       console.log(error.message);

@@ -8,7 +8,6 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import useLogin, { schema, UserLoginData } from "./useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,12 +18,10 @@ const Login = () => {
     formState: { errors },
   } = useForm<UserLoginData>({ resolver: zodResolver(schema) });
 
-  const navigate = useNavigate();
   const mutation = useLogin();
 
   const submit = (data: UserLoginData) => {
     mutation.mutate(data);
-    navigate("/admin");
   };
   return (
     <Box
@@ -37,18 +34,18 @@ const Login = () => {
       boxShadow="lg"
     >
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
-        Signup for Admin Portal
+        Login
       </Heading>
       <form onSubmit={handleSubmit(submit)}>
         <FormControl>
-          <FormLabel>Username</FormLabel>
+          <FormLabel>Email</FormLabel>
           <Input
-            {...register("username")}
-            type="text"
-            placeholder="Enter your username"
+            {...register("email")}
+            type="email"
+            placeholder="Enter your email"
           />
           <FormErrorMessage>
-            {errors.username && errors.username.message}
+            {errors.email && errors.email.message}
           </FormErrorMessage>
         </FormControl>
         <FormControl>

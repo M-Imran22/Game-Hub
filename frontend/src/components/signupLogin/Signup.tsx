@@ -10,7 +10,6 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useSignup, { schema, UserData } from "./useSignup";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const {
@@ -19,12 +18,10 @@ const Signup = () => {
     formState: { errors },
   } = useForm<UserData>({ resolver: zodResolver(schema) });
 
-  const navigate = useNavigate();
   const mutation = useSignup();
 
   const submit = (data: UserData) => {
     mutation.mutate(data);
-    navigate("/admin");
   };
   return (
     <Box
@@ -37,7 +34,7 @@ const Signup = () => {
       boxShadow="lg"
     >
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
-        Signup for Admin Portal
+        Signup
       </Heading>
       <form onSubmit={handleSubmit(submit)}>
         <FormControl>
@@ -72,6 +69,14 @@ const Signup = () => {
           <FormErrorMessage>
             {errors.password && errors.password.message}
           </FormErrorMessage>
+        </FormControl>
+        <FormControl>
+          <Input
+            {...register("roles")}
+            type="text"
+            defaultValue="user"
+            display="none"
+          />
         </FormControl>
         <Button mt={5} type="submit">
           Signup
