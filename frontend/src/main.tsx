@@ -4,8 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "./theme.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { RouterProvider, BrowserRouter, Routes, Route } from "react-router-dom";
-import router from "./router.tsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App.tsx";
 import { AuthProvider } from "../src/context/authProvider.tsx";
 
@@ -15,7 +14,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        {/* <RouterProvider router={router} /> */}
         <BrowserRouter>
           <AuthProvider>
             <Routes>

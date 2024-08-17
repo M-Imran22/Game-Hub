@@ -1,12 +1,21 @@
-import { HStack, Image, Link as ChakraLink, Box } from "@chakra-ui/react";
+import { HStack, Image, Link as ChakraLink, Box, Text } from "@chakra-ui/react";
 import logo from "../../assets/logo.jpg";
 import SwitchColorMode from "./SwitchColorMode";
 import SearchInput from "./SearchInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import axios from "../../services/axios";
 
 const Navbar = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    axios.get("logout");
+    navigate("/");
+    setAuth({});
+  };
 
   return (
     <HStack padding={"10px"} justifyContent="space-between">
@@ -23,22 +32,28 @@ const Navbar = () => {
         <HStack>
           {auth?.accessToken ? (
             <Box>
-              <ChakraLink
-                as={Link}
-                to="/logout"
-                marginRight="10px"
-                fontWeight="bold"
-              >
-                Logout
-              </ChakraLink>
-              <ChakraLink
-                as={Link}
-                to="/admin"
-                marginRight="10px"
-                fontWeight="bold"
-              >
-                Admin Portal
-              </ChakraLink>
+              <HStack>
+                <ChakraLink
+                  as={Link}
+                  to="/"
+                  marginRight="10px"
+                  fontWeight="bold"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </ChakraLink>
+                <ChakraLink
+                  as={Link}
+                  to="/admin"
+                  marginRight="10px"
+                  fontWeight="bold"
+                >
+                  Admin Portal
+                </ChakraLink>
+                <Text marginRight="10px" fontWeight="bold">
+                  {auth.username}
+                </Text>
+              </HStack>
             </Box>
           ) : (
             <Box>

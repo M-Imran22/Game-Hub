@@ -31,11 +31,13 @@ const handleLogin = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
+    const username = user.username;
+
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ roles, accessToken });
+    res.json({ roles, accessToken, username });
   } catch (error) {
     console.log(error);
     res.status(401).json({ error: error.message });

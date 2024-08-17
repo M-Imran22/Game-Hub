@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "../../services/axios";
 
 export const schema = z.object({
   email: z.string().email(),
@@ -22,24 +22,14 @@ const useLogin = () => {
 
   return useMutation({
     mutationFn: async (data: UserLoginData) => {
-      const response = await axios.post(
-        "http://localhost:3001/api/auth",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("auth", data);
       const email = data.email;
       const password = data.password;
+      const username = response?.data?.username;
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
 
-      console.log(response.data);
-
-      setAuth({ email, password, roles, accessToken });
+      setAuth({ email, password, username, roles, accessToken });
     },
     onSuccess: () => {
       navigate(from, { replace: true });

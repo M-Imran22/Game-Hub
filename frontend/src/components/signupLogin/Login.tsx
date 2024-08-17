@@ -5,11 +5,14 @@ import {
   FormErrorMessage,
   FormLabel,
   Heading,
+  Text,
   Input,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import useLogin, { schema, UserLoginData } from "./useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const {
@@ -18,10 +21,29 @@ const Login = () => {
     formState: { errors },
   } = useForm<UserLoginData>({ resolver: zodResolver(schema) });
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const mutation = useLogin();
 
   const submit = (data: UserLoginData) => {
-    mutation.mutate(data);
+    mutation.mutate(data, {
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          const status = error.response?.status;
+          if (status === 400) {
+            setErrorMessage("Unauthorized. Please check your credentials.");
+          } else if (status === 401) {
+            setErrorMessage("Invalid email or password. Please try again.");
+          } else if (status === 500) {
+            setErrorMessage("Server error. Please try again later.");
+          } else {
+            setErrorMessage("An unexpected error occurred. Please try again.");
+          }
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+      },
+    });
   };
   return (
     <Box
@@ -36,6 +58,11 @@ const Login = () => {
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
         Login
       </Heading>
+      {errorMessage && (
+        <Text color="red.500" mb={4} textAlign="center">
+          {errorMessage}
+        </Text>
+      )}
       <form onSubmit={handleSubmit(submit)}>
         <FormControl>
           <FormLabel>Email</FormLabel>
