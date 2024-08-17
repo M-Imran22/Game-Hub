@@ -13,6 +13,7 @@ const handlerefreshToken = async (req, res) => {
   const foundUser = await db.User.findOne({
     where: { refreshToken: refreshToken },
   });
+  console.log(foundUser.username);
   if (!foundUser) return res.sendStatus(403);
 
   jwt.verify(

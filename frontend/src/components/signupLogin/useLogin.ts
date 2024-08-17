@@ -1,5 +1,4 @@
 import { z } from "zod";
-// import ApiClient from "../../services/api-client";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
@@ -30,12 +29,15 @@ const useLogin = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         }
       );
       const email = data.email;
       const password = data.password;
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
+
+      console.log(response.data);
 
       setAuth({ email, password, roles, accessToken });
     },

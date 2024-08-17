@@ -4,6 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import ApiClient from "../../../services/api-client";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 // Define the expected response type for deletion
 interface DeleteResponse {
@@ -11,7 +12,8 @@ interface DeleteResponse {
 }
 
 const useDeleteGame = (): UseMutationResult<DeleteResponse, Error, number> => {
-  const apiClient = new ApiClient<DeleteResponse>("/game");
+  const axiosPrivate = useAxiosPrivate();
+  const apiClient = new ApiClient<DeleteResponse>("/game", axiosPrivate);
 
   const queryClient = useQueryClient();
   return useMutation<DeleteResponse, Error, number>({

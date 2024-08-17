@@ -24,6 +24,7 @@ const fileFields = [
 
 router.post(
   "/",
+  verifyAccessToken,
   verifyRoles(ROLES_LIST.Admin),
   upload.fields(fileFields),
   gamesController.createNewGame

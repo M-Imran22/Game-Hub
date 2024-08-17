@@ -8,9 +8,11 @@ const GameHeading = () => {
     gameQuery.genre?.genreName || ""
   } Games`;
   return (
-    <Heading marginBottom={5} fontSize="5xl" as="h1">
-      {heading}
-    </Heading>
+    <>
+      <Heading marginBottom={5} fontSize="5xl" as="h1">
+        {heading}
+      </Heading>
+    </>
   );
 };
 

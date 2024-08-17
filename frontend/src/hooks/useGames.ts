@@ -3,10 +3,12 @@ import ms from "ms";
 import ApiClient from "../services/api-client";
 import useGameQueryStore from "../store/gameQueryStore";
 import Game from "../entities/Game";
-
-const apiClient = new ApiClient<Game>("games");
+import useAxiosPrivate from "./useAxiosPrivate";
 
 const useGames = () => {
+  const axiosPrivate = useAxiosPrivate();
+
+  const apiClient = new ApiClient<Game>("games", axiosPrivate);
   const gameQuery = useGameQueryStore((s) => s.gameQuery);
   return useInfiniteQuery<
     { games: Game[]; total: number; pages: number; currentPage: number },

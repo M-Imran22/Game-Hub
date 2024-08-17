@@ -6,11 +6,11 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 const generateAccessToken = (username, roles) => {
   return jwt.sign({ userInfo: { username, roles } }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "1m",
+    expiresIn: "10s",
   });
 };
 const generateRefreshToken = (username) => {
-  return jwt.sign(username, REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+  return jwt.sign(username, REFRESH_TOKEN_SECRET, { expiresIn: "15m" });
 };
 
 const verifyAccessToken = (req, res, next) => {
