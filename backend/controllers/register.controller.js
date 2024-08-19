@@ -1,5 +1,4 @@
 const db = require("../models");
-const { where } = require("sequelize");
 const bcrypt = require("bcrypt");
 
 const handleNewUser = async (req, res) => {
@@ -8,7 +7,9 @@ const handleNewUser = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
 
   const duplicate = await db.User.findOne({
-    where: { email: email, username: username },
+    where: {
+      [db.Sequelize.Op.or]: [{ email: email }, { username: username }],
+    },
   });
 
   if (duplicate)

@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { Box, keyframes } from "@chakra-ui/react";
-import Navbar3 from "./Navbar3";
 import backgroundImage1 from "../../assets/background-image.jpg";
 import backgroundImage2 from "../../assets/background-image2.jpg";
 import backgroundImage3 from "../../assets/background-image3.jpg";
 import backgroundImage4 from "../../assets/background-image4.jpg";
-import backgroundImage6 from "../../assets/background-image6.jpg";
-import backgroundImage7 from "../../assets/background-image7.jpg";
+import backgroundImage10 from "../../assets/background-image10.jpg";
+import backgroundImage8 from "../../assets/background-image8.jpeg";
+import Logo from "./Logo";
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -17,8 +17,8 @@ const slideShow = keyframes`
   20% { background-image: url(${backgroundImage2}); }
   40% { background-image: url(${backgroundImage3}); }
   60% { background-image: url(${backgroundImage4}); }
-  80% { background-image: url(${backgroundImage6}); }
-  100% { background-image: url(${backgroundImage7}); }
+  80% { background-image: url(${backgroundImage10}); }
+  100% { background-image: url(${backgroundImage8}); }
 `;
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
@@ -49,7 +49,7 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
       />
 
       <Box position="relative" zIndex="2" height="100vh">
-        <Navbar3 />
+        <Logo />
         <Box mt={5}>{children}</Box>
       </Box>
     </Box>

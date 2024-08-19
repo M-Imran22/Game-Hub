@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link as RouterLink } from "react-router-dom";
 import useAdminSignup, { schema, AdminData } from "./useAdminSignup";
+import { useState } from "react";
+import { isAxiosError } from "axios";
 
 const AdminSignup = () => {
   const {
@@ -21,10 +23,29 @@ const AdminSignup = () => {
     formState: { errors },
   } = useForm<AdminData>({ resolver: zodResolver(schema) });
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const mutation = useAdminSignup();
 
   const submit = (data: AdminData) => {
-    mutation.mutate(data);
+    mutation.mutate(data, {
+      onError: (error) => {
+        if (isAxiosError(error)) {
+          const status = error.response?.status;
+          if (status === 400) {
+            setErrorMessage("Unauthorized. Please check your credentials.");
+          } else if (status === 409) {
+            setErrorMessage("User already have an account");
+          } else if (status === 500) {
+            setErrorMessage("Server error. Please try again later.");
+          } else {
+            setErrorMessage("An unexpected error occurred. Please try again.");
+          }
+        } else {
+          setErrorMessage("An unexpected error occurred. Please try again.");
+        }
+      },
+    });
   };
 
   return (
@@ -41,6 +62,11 @@ const AdminSignup = () => {
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
         Signup
       </Heading>
+      {errorMessage && (
+        <Text color="red.500" mb={4} textAlign="center">
+          {errorMessage}
+        </Text>
+      )}
       <form onSubmit={handleSubmit(submit)}>
         <FormControl isInvalid={!!errors.username}>
           <FormLabel>Username</FormLabel>

@@ -1,7 +1,7 @@
 import { HStack, Image, Text, VStack } from "@chakra-ui/react";
 import logo from "../../assets/logo.jpg";
 
-const Navbar3 = () => {
+const Logo = () => {
   return (
     <HStack padding="10px">
       <VStack spacing="5px">
@@ -28,4 +28,4 @@ const Navbar3 = () => {
   );
 };
 
-export default Navbar3;
+export default Logo;

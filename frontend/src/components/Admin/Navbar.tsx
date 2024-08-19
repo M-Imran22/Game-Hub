@@ -147,6 +147,18 @@ const Navbar = ({ children }: Props) => {
             >
               Add New Game
             </ChakraLink>
+            <ChakraLink
+              as={Link}
+              to="/admin/signup"
+              fontWeight={
+                location.pathname === "/admin/signup" ? "bold" : "normal"
+              }
+              color={
+                location.pathname === "/admin/signup" ? "gray.100" : "gray.300"
+              }
+            >
+              Add New Admin
+            </ChakraLink>
             <ChakraLink as={Link} to="/admin/login" onClick={handleLogout}>
               Logout
             </ChakraLink>

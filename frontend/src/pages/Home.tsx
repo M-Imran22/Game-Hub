@@ -3,6 +3,7 @@ import GameHeading from "../components/Client/GameHeading";
 import GamesList from "../components/Client/GamesList";
 import GenreList from "../components/Client/GenreList";
 import PlatformSelecter from "../components/Client/PlatformSelecter";
+import Slideshow from "../components/Client/Slideshow";
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
       </Show>
       <GridItem area={"main"}>
         <Box marginLeft={3}>
+          <Slideshow />
           <GameHeading />
           <PlatformSelecter />
         </Box>
