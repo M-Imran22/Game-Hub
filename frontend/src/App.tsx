@@ -11,6 +11,9 @@ import Unauthorized from "./components/Unauthorized";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import Dashboard from "./components/Admin/Dashboard";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminSignupPage from "./pages/AdminSignupPage";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
@@ -28,17 +31,19 @@ const App = () => {
             <Route path="games/:gameName" element={<GameDetailPage />} />
           </Route>
         </Route>
-        <Route element={<RequireAuth allowedRoles={["admin"]} />}>
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route
-              index={true}
-              path="/admin/dashboard"
-              element={<Dashboard />}
-            />
-            <Route path="/admin/allproducts" element={<AllGameProduct />} />
+
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index path="login" element={<AdminLoginPage />} />
+          <Route path="signup" element={<AdminSignupPage />} />
+
+          <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="allproducts" element={<AllGameProduct />} />
             <Route path="newgame" element={<AdminNewGamePage />} />
           </Route>
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
