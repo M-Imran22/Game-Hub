@@ -17,13 +17,11 @@ const Home = () => {
       }}
     >
       <Show above="lg">
-        <GridItem area={"asid"} paddingX={5}>
+        <GridItem area={"asid"} paddingX={3} paddingTop={4}>
           <GenreList />
         </GridItem>
       </Show>
       <GridItem area={"main"}>
-        {/* <AllGmeProduct /> */}
-        {/* <NewGame /> */}
         <Box marginLeft={3}>
           <GameHeading />
           <PlatformSelecter />

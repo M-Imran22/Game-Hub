@@ -44,7 +44,7 @@ const Navbar = () => {
                 </ChakraLink>
                 <ChakraLink
                   as={Link}
-                  to="/admin"
+                  to="/admin/dashboard"
                   marginRight="10px"
                   fontWeight="bold"
                 >

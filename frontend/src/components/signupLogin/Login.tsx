@@ -7,12 +7,14 @@ import {
   Heading,
   Text,
   Input,
+  Link,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import useLogin, { schema, UserLoginData } from "./useLogin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import axios from "axios";
+import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -54,6 +56,7 @@ const Login = () => {
       borderWidth={1}
       borderRadius="lg"
       boxShadow="lg"
+      backdropFilter="blur(10px)"
     >
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
         Login
@@ -86,10 +89,16 @@ const Login = () => {
             {errors.password && errors.password.message}
           </FormErrorMessage>
         </FormControl>
-        <Button mt={5} type="submit">
+        <Button mt={6} colorScheme="teal" type="submit">
           Login
         </Button>
       </form>
+      <Text mt={4} textAlign="center">
+        Don't have an account?{" "}
+        <Link as={RouterLink} to="/signup" color="teal.500" fontWeight="bold">
+          Signup here
+        </Link>
+      </Text>
     </Box>
   );
 };

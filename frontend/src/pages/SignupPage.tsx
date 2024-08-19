@@ -1,7 +1,12 @@
+import AuthLayout from "../components/signupLogin/AuthLayout";
 import Signup from "../components/signupLogin/Signup";
 
 const SignupPage = () => {
-  return <Signup />;
+  return (
+    <AuthLayout>
+      <Signup />
+    </AuthLayout>
+  );
 };
 
 export default SignupPage;

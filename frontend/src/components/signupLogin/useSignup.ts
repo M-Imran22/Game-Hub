@@ -1,37 +1,29 @@
 import { z } from "zod";
-// import ApiClient from "../../services/api-client";
 import { useMutation } from "@tanstack/react-query";
-import ApiClient from "../../services/api-client";
 import { useNavigate } from "react-router-dom";
+import axios from "../../services/axios";
 
 export const schema = z.object({
   username: z
     .string()
-    .min(3, { message: "name must be greater then 3 characters" })
-    .max(20),
-  email: z.string().email(),
+    .min(3, { message: "Username must be at least 3 characters long." })
+    .max(20, { message: "Username must be at most 20 characters long." }),
+  email: z.string().email({ message: "Invalid email address." }),
   password: z
     .string()
-    .min(8, { message: "Password must be greater then 8 characters" })
-    .max(20),
-  roles: z.string(),
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .max(20, { message: "Password must be at most 20 characters long." }),
+  roles: z.string().default("user"),
 });
 
 export type UserData = z.infer<typeof schema>;
-const apiClient = new ApiClient<UserData>("/register");
 
 const useSignup = () => {
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async (data: UserData) => {
-      const formData = new FormData();
-      formData.append("username", data.username);
-      formData.append("email", data.email);
-      formData.append("password", data.password);
-      formData.append("roles", "user");
-
-      await apiClient.postSignup(data);
+      await axios.post("register", data);
     },
     onSuccess: () => {
       navigate("/login");

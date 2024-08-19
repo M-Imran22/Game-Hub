@@ -6,9 +6,12 @@ import {
   FormLabel,
   Heading,
   Input,
+  Text,
+  Link,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link as RouterLink } from "react-router-dom";
 import useSignup, { schema, UserData } from "./useSignup";
 
 const Signup = () => {
@@ -23,6 +26,7 @@ const Signup = () => {
   const submit = (data: UserData) => {
     mutation.mutate(data);
   };
+
   return (
     <Box
       maxW="500px"
@@ -32,12 +36,13 @@ const Signup = () => {
       borderWidth={1}
       borderRadius="lg"
       boxShadow="lg"
+      backdropFilter="blur(10px)"
     >
       <Heading as="h1" fontSize="32px" my={8} textAlign="center">
         Signup
       </Heading>
       <form onSubmit={handleSubmit(submit)}>
-        <FormControl>
+        <FormControl isInvalid={!!errors.username}>
           <FormLabel>Username</FormLabel>
           <Input
             {...register("username")}
@@ -48,7 +53,7 @@ const Signup = () => {
             {errors.username && errors.username.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={!!errors.email} mt={4}>
           <FormLabel>Email</FormLabel>
           <Input
             {...register("email")}
@@ -59,7 +64,7 @@ const Signup = () => {
             {errors.email && errors.email.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={!!errors.password} mt={4}>
           <FormLabel>Password</FormLabel>
           <Input
             {...register("password")}
@@ -70,18 +75,17 @@ const Signup = () => {
             {errors.password && errors.password.message}
           </FormErrorMessage>
         </FormControl>
-        <FormControl>
-          <Input
-            {...register("roles")}
-            type="text"
-            defaultValue="user"
-            display="none"
-          />
-        </FormControl>
-        <Button mt={5} type="submit">
+        <Input {...register("roles")} type="hidden" value="user" />
+        <Button mt={6} colorScheme="teal" type="submit">
           Signup
         </Button>
       </form>
+      <Text mt={4} textAlign="center">
+        Already have an account?{" "}
+        <Link as={RouterLink} to="/login" color="teal.500" fontWeight="bold">
+          Login here
+        </Link>
+      </Text>
     </Box>
   );
 };

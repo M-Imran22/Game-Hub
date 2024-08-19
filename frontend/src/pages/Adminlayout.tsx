@@ -5,10 +5,11 @@ import { Box } from "@chakra-ui/react";
 const AdminLayout = () => {
   return (
     <>
-      <Navbar />
-      <Box padding={5}>
-        <Outlet />
-      </Box>
+      <Navbar>
+        <Box padding={5}>
+          <Outlet />
+        </Box>
+      </Navbar>
     </>
   );
 };
