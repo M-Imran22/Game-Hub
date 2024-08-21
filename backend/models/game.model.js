@@ -37,20 +37,20 @@ module.exports = (sequelize, DataTypes) => {
   Game.associate = (models) => {
     Game.hasMany(models.Platform, {
       foreignKey: "gameID",
-      as: "platform",
+      as: "platforms",
       onDelete: "CASCADE",
       Hooks: true,
     });
 
     Game.hasMany(models.Genre, {
       foreignKey: "gameID",
-      as: "genre",
+      as: "genres",
       onDelete: "CASCADE",
       Hooks: true,
     });
     Game.hasMany(models.GameScreenShots, {
       foreignKey: "gameID",
-      as: "screenShots",
+      as: "screenshots",
       onDelete: "CASCADE",
       Hooks: true,
     });

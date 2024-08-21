@@ -13,10 +13,10 @@ const GamesList = () => {
   const filteredGames = data?.pages.flatMap((page) =>
     page.games.filter((game) => {
       const matchesGenre = gameQuery.genre
-        ? game.genre.some((genre) => genre.slug === gameQuery.genre?.slug)
+        ? game.genres.some((genre) => genre.slug === gameQuery.genre?.slug)
         : true;
       const matchesPlatform = gameQuery.platform
-        ? game.platform.some(
+        ? game.platforms.some(
             (platform) => platform.slug === gameQuery.platform?.slug
           )
         : true;

@@ -8,8 +8,8 @@ exports.getGame = async (req, res) => {
     const game = await db.Game.findOne({
       where: { gameName: gameName },
       include: [
-        { model: db.Platform, as: "platform" },
-        { model: db.Genre, as: "genre" },
+        { model: db.Platform, as: "platforms" },
+        { model: db.Genre, as: "genres" },
       ],
     });
     if (game) {
@@ -45,8 +45,9 @@ exports.editGame = async (req, res) => {
   try {
     const game = await db.Game.findByPk(gameId, {
       include: [
-        { model: db.Platform, as: "platform" },
-        { model: db.Genre, as: "genre" },
+        { model: db.Platform, as: "platforms" },
+        { model: db.Genre, as: "genres" },
+        { model: db.GameScreenShots, as: "screenshots" },
       ],
     });
     if (game) {
@@ -59,7 +60,6 @@ exports.editGame = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch game" });
   }
 };
-
 exports.updateGame = async (req, res) => {
   const gameId = req.params.id;
   const {
@@ -73,12 +73,14 @@ exports.updateGame = async (req, res) => {
     gameDescription,
   } = req.body;
 
-  const gameImage = req.files["gameImage"]
+  const gameImage = req.files?.gameImage
     ? req.files["gameImage"][0].filename
     : null;
-  const screenShots = req.files["screenShots"]
+  const screenShots = req.files?.screenShots
     ? req.files["screenShots"].map((file) => file.filename)
     : [];
+
+  const transaction = await db.sequelize.transaction();
 
   try {
     const game = await db.Game.findByPk(gameId);
@@ -86,56 +88,76 @@ exports.updateGame = async (req, res) => {
       return res.status(404).json({ error: "Game not found" });
     }
 
-    // Update game details
-    await game.update({
-      gameName,
+    // Prepare an update object, only adding fields that are provided in req.body
+    const updatedFields = {
+      gameName: gameName || game.gameName,
       gameImage: gameImage || game.gameImage,
-      publisherName,
-      releaseDate,
-      price,
-      salePrice,
-      gameDescription,
-    });
+      publisherName: publisherName || game.publisherName,
+      releaseDate: releaseDate || game.releaseDate,
+      price: price !== undefined ? price : game.price,
+      salePrice: salePrice !== undefined ? salePrice : game.salePrice,
+      gameDescription: gameDescription || game.gameDescription,
+    };
 
-    // Update screenshots: delete existing and add new ones
+    // Update game details
+    await game.update(updatedFields, { transaction });
+
+    // Update screenshots only if new screenshots are provided
     if (screenShots.length > 0) {
-      await db.GameScreenShots.destroy({ where: { gameID: gameId } });
+      await db.GameScreenShots.destroy({
+        where: { gameID: gameId },
+        transaction,
+      });
       for (let screenShot of screenShots) {
-        await db.GameScreenShots.create({
-          screenShot,
-          gameID: game.id,
-        });
+        await db.GameScreenShots.create(
+          {
+            screenShot,
+            gameID: game.id,
+          },
+          { transaction }
+        );
       }
     }
 
-    // Update platforms: delete existing and add new ones
+    // Update platforms only if new platforms are provided
     if (platform) {
       const platformsArray = JSON.parse(platform);
-      await db.Platform.destroy({ where: { gameID: gameId } });
+      await db.Platform.destroy({ where: { gameID: gameId }, transaction });
       for (let slug of platformsArray) {
-        await db.Platform.create({
-          slug,
-          gameID: game.id,
-        });
+        await db.Platform.create(
+          {
+            slug,
+            gameID: game.id,
+          },
+          { transaction }
+        );
       }
     }
 
-    // Update genres: delete existing and add new ones
+    // Update genres only if new genres are provided
     if (genre) {
       const genreArray = JSON.parse(genre);
-      await db.Genre.destroy({ where: { gameID: gameId } });
+      await db.Genre.destroy({ where: { gameID: gameId }, transaction });
       for (let genreItem of genreArray) {
-        await db.Genre.create({
-          genreName: genreItem.name,
-          slug: genreItem.slug,
-          gameID: game.id,
-        });
+        await db.Genre.create(
+          {
+            genreName: genreItem.name,
+            slug: genreItem.slug,
+            gameID: game.id,
+          },
+          { transaction }
+        );
       }
     }
 
+    // Commit transaction if everything is successful
+    await transaction.commit();
+    console.log("Game updated successfully");
     res.status(200).json({ message: "Game updated successfully", game });
   } catch (error) {
+    // Rollback transaction in case of failure
     console.error(`Failed to update game with id ${gameId}:`, error);
+    await transaction.rollback();
     res.status(500).json({ error: "Failed to update game" });
   }
 };

@@ -1,6 +1,6 @@
 // useGames.ts
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios from "../../../services/axios";
 
 interface GameProduct {
   id: number;
@@ -16,15 +16,12 @@ interface ResponseGames {
 }
 
 const fetchGames = async (page: number): Promise<GameProduct[]> => {
-  const response = await axios.get<ResponseGames>(
-    "http://localhost:3001/api/games",
-    {
-      params: {
-        page: page,
-        page_size: 10,
-      },
-    }
-  );
+  const response = await axios.get<ResponseGames>("/games", {
+    params: {
+      page: page,
+      page_size: 10,
+    },
+  });
   return response.data.games;
 };
 

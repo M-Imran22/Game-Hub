@@ -19,13 +19,12 @@ const upload = multer({ storage });
 
 const fileFields = [
   { name: "gameImage", maxCount: 1 },
-  { name: "screenShots", maxCount: 20 }, // Adjust maxCount as needed
+  { name: "screenshots", maxCount: 20 }, // Adjust maxCount as needed
 ];
 
 router.post(
   "/",
   verifyAccessToken,
-  verifyRoles(ROLES_LIST.Admin),
   upload.fields(fileFields),
   gamesController.createNewGame
 );

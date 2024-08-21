@@ -17,8 +17,8 @@ exports.createNewGame = async (req, res) => {
     const gameImage = req.files["gameImage"]
       ? req.files["gameImage"][0].filename
       : null;
-    const screenShots = req.files["screenShots"]
-      ? req.files["screenShots"].map((file) => file.filename)
+    const screenshots = req.files["screenshots"]
+      ? req.files["screenshots"].map((file) => file.filename)
       : [];
 
     const newGame = await db.Game.create({
@@ -32,7 +32,7 @@ exports.createNewGame = async (req, res) => {
     });
 
     // Saving screenshots
-    for (let screenShot of screenShots) {
+    for (let screenShot of screenshots) {
       await db.GameScreenShots.create({
         screenShot,
         gameID: newGame.id,
@@ -82,11 +82,11 @@ exports.getAllGames = async (req, res) => {
       include: [
         {
           model: db.Platform,
-          as: "platform",
+          as: "platforms",
         },
         {
           model: db.Genre,
-          as: "genre",
+          as: "genres",
         },
       ],
 

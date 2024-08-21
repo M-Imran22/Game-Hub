@@ -1,9 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import genres from "../../../data/genres";
-import axios from "axios";
 import { GameData } from "./NewGameValidationSchema";
+import { axiosPrivate } from "../../../services/axios";
+import ApiClient from "../../../services/api-client";
 
 const useNewGame = (onAdd: () => void) => {
+  const apiClient = new ApiClient<GameData>("games", axiosPrivate);
   return useMutation({
     mutationFn: async (data: GameData) => {
       const gameData = new FormData(); //FormData is a built-in object
@@ -14,10 +16,10 @@ const useNewGame = (onAdd: () => void) => {
       gameData.append("releaseDate", data.releaseDate);
       gameData.append("price", data.price.toString());
       gameData.append("salePrice", (data.salePrice ?? 0).toString());
-      gameData.append("gameDescription", data.gameDiscription);
+      gameData.append("gameDescription", data.gameDescription);
 
-      data.screenShots.forEach((screenShot) => {
-        gameData.append("screenShots", screenShot);
+      data.screenshots.forEach((screenShot) => {
+        gameData.append("screenshots", screenShot);
       });
 
       const selectedGenres = genres.filter((genre) =>
@@ -25,16 +27,7 @@ const useNewGame = (onAdd: () => void) => {
       );
       gameData.append("genre", JSON.stringify(selectedGenres));
 
-      // console.log(gameData);
-      const response = await axios.post(
-        "http://localhost:3001/api/games",
-        gameData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await apiClient.postNewGame(gameData);
 
       return response.data;
     },

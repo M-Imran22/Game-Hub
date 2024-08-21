@@ -9,10 +9,10 @@ router.get("/:name", verifyAccessToken, gameController.getGame);
 router.get("/gameScreenShots/:id", gameController.getGameScreenShots);
 router.delete(
   "/:id",
-  verifyRoles(ROLES_LIST.Admin),
+  verifyRoles(ROLES_LIST.admin),
   gameController.destroyGame
 );
-router.get("/:id/edit", verifyRoles(ROLES_LIST.Admin), gameController.editGame);
-router.put("/:id", verifyRoles(ROLES_LIST.Admin), gameController.updateGame);
+router.get("/:id/edit", gameController.editGame);
+router.put("/:id", gameController.updateGame);
 
 module.exports = router;

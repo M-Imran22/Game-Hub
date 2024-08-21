@@ -15,15 +15,15 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import logo from "../../assets/logo.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../services/axios";
+import AuthStore from "../../store/AuthStore";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const Navbar = ({ children }: Props) => {
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth } = AuthStore();
   const location = useLocation();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -49,7 +49,6 @@ const Navbar = ({ children }: Props) => {
     }
   };
 
-  // Responsive sidebar width and visibility
   const sidebarWidth = useBreakpointValue({ base: "100%", md: "300px" });
   const isSidebarVisible = useBreakpointValue({ base: isOpen, md: true });
 

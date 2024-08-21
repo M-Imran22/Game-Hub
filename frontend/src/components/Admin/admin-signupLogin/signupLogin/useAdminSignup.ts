@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../../services/axios";
-import useAuth from "../../../../hooks/useAuth";
+import AuthStore from "../../../../store/AuthStore";
 
 export const schema = z.object({
   username: z
@@ -21,7 +21,7 @@ export type AdminData = z.infer<typeof schema>;
 
 const useAdminSignup = () => {
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { setAuth } = AuthStore();
 
   return useMutation({
     mutationFn: async (data: AdminData) => {

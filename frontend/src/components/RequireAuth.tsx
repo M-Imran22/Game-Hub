@@ -1,12 +1,12 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import AuthStore from "../store/AuthStore";
 
 interface Props {
   allowedRoles: string[];
 }
 
 const RequireAuth = ({ allowedRoles }: Props) => {
-  const { auth } = useAuth();
+  const { auth } = AuthStore();
   const location = useLocation();
 
   return auth?.roles?.find((role: string) => allowedRoles.includes(role)) ? (

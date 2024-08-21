@@ -14,6 +14,7 @@ import Dashboard from "./components/Admin/Dashboard";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminSignupPage from "./pages/AdminSignupPage";
 import NotFound from "./components/NotFound";
+import AdminEditGamePage from "./pages/AdminEditGamePage";
 
 const App = () => {
   return (
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="allproducts" element={<AllGameProduct />} />
             <Route path="newgame" element={<AdminNewGamePage />} />
+            <Route path=":id/edit" element={<AdminEditGamePage />} />
           </Route>
         </Route>
 

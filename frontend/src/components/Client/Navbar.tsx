@@ -15,12 +15,12 @@ import logo from "../../assets/logo.jpg";
 import SwitchColorMode from "./SwitchColorMode";
 import SearchInput from "./SearchInput";
 import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../services/axios";
 import { useDisclosure } from "@chakra-ui/react";
+import AuthStore from "../../store/AuthStore";
 
 const Navbar = () => {
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth } = AuthStore();
   const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
 

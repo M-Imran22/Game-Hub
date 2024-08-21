@@ -18,22 +18,21 @@ import {
 import { BsPlus } from "react-icons/bs";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import genres from "../../../data/genres";
 import platforms from "../../../data/platforms";
-import useNewGame from "./useNewGame";
-import { GameData, schema } from "./NewGameValidationSchema";
-import { useNavigate } from "react-router-dom";
-// import { fetchOptions } from "./services/api-client";
+import { GameData, schema } from "../newGame/NewGameValidationSchema";
+import useEditGame from "./useEditGame";
+import Platform from "../../../entities/Platform";
+import Genre from "../../../entities/Genre";
+import ScreenShots from "../../../entities/ScreenShots";
 
-const NewGame = () => {
-  // const { data: options } = useQuery({
-  //   queryKey: ["options"],
-  //   queryFn: () => fetchOptions(),
-  // });
+const EditGame = () => {
+  const { id } = useParams(); // Get game ID from URL
+  const navigate = useNavigate();
 
   const methods = useForm<GameData>({ resolver: zodResolver(schema) });
-
   const {
     register,
     handleSubmit,
@@ -47,20 +46,56 @@ const NewGame = () => {
   const screenshots = watch("screenshots", []);
   const gameImage = watch("gameImage", []);
 
-  const navigate = useNavigate();
+  const { game, isLoading, isError } = useEditGame(id, reset);
 
-  const mutation = useNewGame(() => {
-    reset();
+  useEffect(() => {
+    if (game) {
+      const formattedReleaseDate = game.releaseDate.split(" ")[0]; // Format the date
+      const screenshots = game.screenshots || [];
+
+      // Extract platform slugs and genre slugs from the fetched data
+      const selectedPlatforms = platforms.filter((platform) =>
+        game.platforms.map((p: Platform) => p.slug).includes(platform.slug)
+      );
+      const selectedGenres = genres.filter((genre) =>
+        game.genres.map((g: Genre) => g.slug).includes(genre.slug)
+      );
+
+      reset({
+        ...game,
+        releaseDate: formattedReleaseDate,
+        platform: selectedPlatforms.map((p) => p.slug),
+        genre: selectedGenres.map((g) => g.slug),
+        screenshots,
+      });
+    }
+  }, [game, reset]);
+
+  //  useEffect(() => {
+  //       return () => {
+  //         screenshots.forEach((file:File) => {
+  //           if ( file instanceof File) {
+  //             URL.revokeObjectURL(file);
+  //           }
+  //         });
+  //       };
+  //     }, [screenshots]);
+
+  const mutation = useEditGame(id, () => {
     navigate("/admin/allproducts");
   });
 
   const submit = (data: GameData) => {
-    // console.log(data);
-    mutation.mutate(data);
+    console.log(errors);
+    console.log(data);
+    mutation.mutation.mutate(data);
   };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setValue("gameImage", event.target.files);
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      setValue("gameImage", [files[0]], { shouldValidate: true }); // Store as an array with one file
+    }
   };
 
   const handleMultipleFileChange = (files: File[]) => {
@@ -68,6 +103,16 @@ const NewGame = () => {
       shouldValidate: true,
     });
   };
+
+  const imageUrl =
+    gameImage.length > 0
+      ? gameImage[0] instanceof File
+        ? URL.createObjectURL(gameImage[0])
+        : `http://localhost:3001/uploads/${gameImage}` // Existing image URL
+      : null;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading game data</p>;
 
   return (
     <Box
@@ -127,12 +172,13 @@ const NewGame = () => {
                       </Box>
                     ) : (
                       <Image
-                        src={URL.createObjectURL(gameImage[0])}
+                        src={imageUrl ?? ""}
                         alt="Game Image"
                         width="150px"
                         height="150px"
                         objectFit="cover"
                         borderRadius="md"
+                        // display={imageUrl ? "block" : "none"}
                       />
                     )}
                   </Box>
@@ -156,7 +202,7 @@ const NewGame = () => {
                   </FormErrorMessage>
                 </FormControl>
                 <FormControl isInvalid={!!errors.releaseDate}>
-                  <FormLabel htmlFor="releaseDate">release Date</FormLabel>
+                  <FormLabel htmlFor="releaseDate">Release Date</FormLabel>
                   <Input
                     {...register("releaseDate")}
                     id="releaseDate"
@@ -277,7 +323,13 @@ const NewGame = () => {
                   {screenshots.map((file, index) => (
                     <Image
                       key={index}
-                      src={URL.createObjectURL(file)}
+                      src={
+                        file instanceof File
+                          ? URL.createObjectURL(file)
+                          : `http://localhost:3001/uploads/${
+                              (file as ScreenShots).screenShot
+                            }`
+                      }
                       alt={`uploaded image ${index + 1}`}
                       boxSize="100px"
                       objectFit="cover"
@@ -290,7 +342,7 @@ const NewGame = () => {
             <Box width="100%">
               <FormControl isInvalid={!!errors.gameDescription}>
                 <FormLabel htmlFor="gameDescription">
-                  Game Discription
+                  Game Description
                 </FormLabel>
                 <Textarea
                   rows={10}
@@ -303,69 +355,8 @@ const NewGame = () => {
                 </FormErrorMessage>
               </FormControl>
             </Box>
-            {/* <Box width="100%" my={5}>
-              <Text fontWeight="bold" my={5}>
-                System Requirements
-              </Text>
-              <HStack spacing={4}>
-              <Box>
-                  <Text>RECOMMENDED:</Text>
-                  <VStack spacing={4}>
-                    {Object.keys(options || {}).map((key) => {
-                      const typedKey = key as TypesKeys;
-                      return (
-                        <FormControl key={typedKey}>
-                          <FormLabel>{typedKey}</FormLabel>
-                          <Select
-                            {...register(
-                              `systemRequirements.recommended.${typedKey}`
-                            )}
-                            placeholder={`Select ${typedKey}`}
-                          >
-                            {options?.[typedKey]?.[0]?.options?.map(
-                              (option) => (
-                                <option key={option.id} value={option.value}>
-                                  {option.value}
-                                </option>
-                              )
-                            )}
-                          </Select>
-                        </FormControl>
-                      );
-                    })}
-                  </VStack>
-                </Box>
-                <Box>
-                  <Text>MINIMUM:</Text>
-                  <VStack spacing={4}>
-                    {Object.keys(options || {}).map((key) => {
-                      const typedKey = key as TypesKeys;
-                      return (
-                        <FormControl key={typedKey}>
-                          <FormLabel>{typedKey}</FormLabel>
-                          <Select
-                            {...register(
-                              `systemRequirements.minimum.${typedKey}`
-                            )}
-                            placeholder={`Select ${typedKey}`}
-                          >
-                            {options?.[typedKey]?.[0]?.options?.map(
-                              (option) => (
-                                <option key={option.id} value={option.value}>
-                                  {option.value}
-                                </option>
-                              )
-                            )}
-                          </Select>
-                        </FormControl>
-                      );
-                    })}
-                  </VStack>
-                </Box>
-              </HStack>
-            </Box> */}
             <Button type="submit" size={"md"}>
-              Submit
+              Edit
             </Button>
           </VStack>
         </form>
@@ -374,4 +365,4 @@ const NewGame = () => {
   );
 };
 
-export default NewGame;
+export default EditGame;

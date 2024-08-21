@@ -1,12 +1,12 @@
 import axios from "axios";
-import useAuth from "./useAuth";
+import AuthStore from "../store/AuthStore";
 
 interface Auth {
   accessToken: string;
 }
 
 const useRefreshToken = () => {
-  const { setAuth } = useAuth();
+  const { setAuth } = AuthStore();
 
   const refresh = async () => {
     const response = await axios.get("http://localhost:3001/api/refresh", {

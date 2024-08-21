@@ -3,10 +3,10 @@ import Navbar from "../components/Client/Navbar";
 import { Box } from "@chakra-ui/react";
 import { useState, useEffect, useRef } from "react";
 import SuccessPopup from "../components/SuccessPopup";
-import useAuth from "../hooks/useAuth";
+import AuthStore from "../store/AuthStore";
 
 const ClientLayout = () => {
-  const { auth } = useAuth();
+  const { auth } = AuthStore();
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
   const previousUsername = useRef<string | null>(null);
 

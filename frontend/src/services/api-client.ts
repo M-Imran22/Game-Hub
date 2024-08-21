@@ -47,8 +47,12 @@ class ApiClient<T> {
       .then((res) => res.data);
   };
 
-  postNewGame = async (data: T) => {
-    const res = await this.axiosPrivateInstance.post(this.endpoint, data);
+  postNewGame = async (data: FormData) => {
+    const res = await this.axiosPrivateInstance.post(this.endpoint, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return res.data;
   };
 

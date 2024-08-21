@@ -6,7 +6,6 @@ import {
   Tr,
   Th,
   Td,
-  Link,
   IconButton,
   Flex,
   Button,
@@ -15,6 +14,7 @@ import {
 import { DeleteIcon } from "@chakra-ui/icons";
 import useDeleteGame from "./useDeleteGame";
 import useAllGames from "./useAllGames";
+import { Link } from "react-router-dom";
 
 const AllGameProduct = () => {
   const [page, setPage] = useState<number>(1);
@@ -62,9 +62,7 @@ const AllGameProduct = () => {
           {games?.map((game) => (
             <Tr key={game.id}>
               <Td>
-                <Link href={`http://localhost:3001/game/${game.id}`} isExternal>
-                  {game.id}
-                </Link>
+                <Link to={`/admin/${game.id}/edit`}>{game.id}</Link>
               </Td>
               <Td>
                 <img
@@ -75,9 +73,7 @@ const AllGameProduct = () => {
                 />
               </Td>
               <Td>
-                <Link href={`http://localhost:3001/game/${game.id}`} isExternal>
-                  {game.gameName}
-                </Link>
+                <Link to={`/admin/${game.id}/edit`}>{game.gameName}</Link>
               </Td>
               <Td>{game.publisherName}</Td>
               <Td>{game.price}</Td>

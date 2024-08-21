@@ -9,12 +9,12 @@ const GameAttributes = ({ game }: Props) => {
   return (
     <SimpleGrid columns={2} as="dl">
       <DefinitionItem term="Platforms">
-        {game.platform.map((p) => (
+        {game.platforms.map((p) => (
           <Text key={p.id}>{p.slug}</Text>
         ))}
       </DefinitionItem>
       <DefinitionItem term="Genres">
-        {game.genre.map((g) => (
+        {game.genres.map((g) => (
           <Text key={g.id}>{g.slug}</Text>
         ))}
       </DefinitionItem>

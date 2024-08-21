@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import useAuth from "../../hooks/useAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../../services/axios";
+import AuthStore from "../../store/AuthStore";
 
 export const schema = z.object({
   email: z.string().email(),
@@ -15,7 +15,7 @@ export const schema = z.object({
 export type UserLoginData = z.infer<typeof schema>;
 
 const useLogin = () => {
-  const { setAuth } = useAuth();
+  const { setAuth } = AuthStore();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";

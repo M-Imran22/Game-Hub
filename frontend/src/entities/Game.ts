@@ -7,7 +7,7 @@ export default interface Game {
   gameImage: string;
   gameDescription: string;
   publisherName: string;
-  platform: Platform[];
-  genre: Genre[];
+  platforms: Platform[];
+  genres: Genre[];
   search: string;
 }

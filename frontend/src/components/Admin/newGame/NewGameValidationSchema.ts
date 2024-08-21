@@ -11,20 +11,26 @@ export const schema = z.object({
   price: z.number().min(1, { message: "Price must be at least 1" }),
   salePrice: z.number().optional(),
   gameImage: z
-    .any()
-    .refine((file) => file?.length === 1, { message: "Image is required" })
-    .refine((file) => file && file[0].type.startsWith("image/"), {
-      message: "Must be an image",
-    }),
+    .union([
+      z.array(z.instanceof(File)).min(1, { message: "Image is required" }),
+      z.string(),
+    ])
+    .refine(
+      (file) =>
+        (Array.isArray(file) && file.length > 0) || typeof file === "string",
+      {
+        message: "A valid image file is required",
+      }
+    ),
   platform: z
     .array(z.string())
     .nonempty({ message: "Select at least one platform" }),
   genre: z.array(z.string()).nonempty({ message: "Select at least one genre" }),
-  screenShots: z
+  screenshots: z
     .array(z.instanceof(File))
     .min(1, "Please upload at least one image")
     .max(20, "You can upload up to 20 images"),
-  gameDiscription: z.string().min(10, { message: "Description is required" }),
+  gameDescription: z.string().min(10, { message: "Description is required" }),
   // systemRequirements: z.object({
   //   recommended: z.object({
   //     OS: z.string().optional(),

@@ -20,7 +20,7 @@ const GameCard = ({ game }: GameCardProps) => {
       />
       <CardBody>
         <Stack marginBottom={3}>
-          <CardIcons platform={game.platform.map((platfrom) => platfrom)} />
+          <CardIcons platform={game.platforms.map((platfrom) => platfrom)} />
         </Stack>
         <Heading fontWeight="bold" fontSize="xl">
           <Link to={"/games/" + game.gameName}>{game.gameName}</Link>
